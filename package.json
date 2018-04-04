@@ -1,0 +1,29 @@
+{
+  "name": "NYT-React-App",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sefeder/NYT-React-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sefeder/NYT-React-App/issues"
+  },
+  "homepage": "https://github.com/sefeder/NYT-React-App#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
+    "express": "^4.16.3",
+    "mongojs": "^2.5.0",
+    "morgan": "^1.9.0",
+    "path": "^0.12.7"
+  }
+}
