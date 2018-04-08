@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Wrapper from "./components/Wrapper";
+import Footer from "./components/Footer";
+import Home from "./pages/Home"
+import Saved from "./pages/Saved"
 
 const App = () => (
   <Router>
@@ -9,7 +14,7 @@ const App = () => (
       <Navbar />
       <Wrapper>
         <Route exact path="/" component={Home} />
-        <Route exact path="/saved" componenet={Saved} />
+        <Route exact path="/saved" component={Saved} />
       </Wrapper>
       <Footer />
     </div>

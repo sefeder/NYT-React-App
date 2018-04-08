@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var db = require('./models');
 
 //Use morgan logger for logging requests
 var logger = require('morgan');
@@ -49,12 +50,36 @@ app.use(function (req, res, next) {
 
 //routes
 app.get('/api/articles', function (req, res) {
+    db.Article.find({}, function(error, response){
+        res.send(response)
+    })
 })
 
 app.post('/api/articles', function (req, res) {
+    var article = {}
+    article.title = req.body.headline
+    article.date = req.body.date
+    article.URL = req.body.URL
+
+    db.Article.create(article)
+        .then(function (dbArticle) {
+            // console.log(result)
+            res.send('Yayyy')
+        })
+        .catch(function (err) {
+            res.json(err)
+        })
 })
 
-app.delete('/api/articles', function (req, res) {
+app.delete('/api/articles/:id', function (req, res) {
+    var _id = req.params.id
+    db.Article.remove(
+        {
+            _id: _id
+        }, function (err, removed) {
+            res.json(_id)
+        }
+    )
 })
 
 app.get("*", function (req, res) {
