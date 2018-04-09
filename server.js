@@ -55,7 +55,7 @@ app.get("/api/articles", function(req, res) {
   });
 });
 
-app.get("/api/articles/note/:id", function(req, res) {
+app.get("/api/articles/:id", function(req, res) {
   var _id = req.params.id;
   console.log("id", _id);
   db.Article.find(
@@ -93,6 +93,27 @@ app.delete("/api/articles/:id", function(req, res) {
     },
     function(err, removed) {
       res.json(_id);
+    }
+  );
+});
+
+app.put("/api/articles/:id", function(req, res) {
+  var _id = req.params.id;
+  console.log(_id);
+  db.Article.findAndModify(
+    {
+      query: {
+        _id: _id
+      },
+      update: {
+        $set: {
+          notes: req.body.notes
+        }
+      },
+      new: true
+    },
+    function(err, result) {
+      res.json(result);
     }
   );
 });

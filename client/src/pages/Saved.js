@@ -7,7 +7,7 @@ class Saved extends Component {
     this.state = {
       articles: [],
       updateNote: false,
-      insertNoteId: 1
+      insertNoteId: ""
     };
   }
 
@@ -20,7 +20,7 @@ class Saved extends Component {
   };
 
   findArticle = id => {
-    return fetch(`/api/articles/note/${id}`).then(res => res.json());
+    return fetch(`/api/articles/${id}`).then(res => res.json());
   };
 
   removeArticle = event => {
@@ -40,7 +40,7 @@ class Saved extends Component {
 
   loadNoteForm = id => {
     this.setState({ updateNote: true }, () => {
-      this.setState({ editNoteId: id });
+      this.setState({ insertNoteId: id });
 
       let form = document.querySelector("#noteForm");
 
@@ -53,6 +53,27 @@ class Saved extends Component {
   cancelNoteForm = event => {
     event.preventDefault();
     this.setState({ update: false });
+  };
+
+  insertNote = event => {
+    event.preventDefault();
+
+    const notes = event.target.children[0].value;
+
+    const id = event.target.children[1].value;
+
+    fetch(`http://localhost:4025/api/articles/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ notes })
+    })
+      //   .then(res => res.json())
+      .then(res => {
+        let articles = this.state.articles.map(a => {
+          if (a._id !== id) return a;
+          else return res;
+        });
+        this.setState({ articles });
+      });
   };
 
   render() {
@@ -87,7 +108,7 @@ class Saved extends Component {
         <div id="right">
           {this.state.updateNote && (
             <div>
-              <form id="noteForm" onSubmit={this.loadNoteForm}>
+              <form id="noteForm" onSubmit={this.insertNote}>
                 <textarea name="notes" rows="5" cols="30">
                   Hello
                 </textarea>
