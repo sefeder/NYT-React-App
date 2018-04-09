@@ -1,0 +1,8 @@
+body {
+    background: url("background.png") no-repeat center fixed;
+    background-size: cover;
+}
+h1 {
+    color: black;
+    font-size: 60px;
+}

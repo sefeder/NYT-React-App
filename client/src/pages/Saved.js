@@ -14,8 +14,7 @@ class Saved extends Component {
     }
 
     loadArticles = () => {
-       return fetch('http://localhost:4025/api/articles').then(res => res.json())
-           
+       return fetch('http://localhost:4025/api/articles').then(res => res.json())   
     }
 
     removeArticle = event => {
@@ -26,7 +25,6 @@ class Saved extends Component {
         })
         .then(res => res.json())
         .then(oldArticleID => {
-            console.log(oldArticleID)
             let articles = this.state.articles.filter(
                 (article, i) => article._id !== oldArticleID
             );
@@ -37,7 +35,6 @@ class Saved extends Component {
 
     render() {
         return (
-
             <div className="panel-body">
                 {this.state.articles.map(a => (
                     <div className="panel panel-default" data-id={a._id} key={a._id}>
