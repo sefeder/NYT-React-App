@@ -21,7 +21,10 @@ class Home extends Component {
     }
     saveArticle = event => {
         event.preventDefault();
-        
+        event.target.setAttribute('disabled', true);
+        event.target.classList.add('btn-default');
+        event.target.classList.remove('btn-success');
+        event.target.textContent = 'Saved';
         let headline = event.target.previousSibling.previousSibling.previousSibling.textContent
         let date = event.target.previousSibling.previousSibling.textContent
         let URL = event.target.previousSibling.textContent
