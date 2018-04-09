@@ -6,7 +6,8 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {
-      articles: []
+      articles: [],
+      noteForm: false
     };
   }
   submitSearch = event => {
