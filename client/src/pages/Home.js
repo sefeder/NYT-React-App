@@ -74,7 +74,7 @@ class Home extends Component {
                         <h2>Results</h2>
                     </div>
                     <div className="panel-body">
-                        {this.state.articles.map(a => (
+        {this.state.articles ? this.state.articles.map(a => (
                             <div className="panel panel-default" key={a._id}>
                                 <a href={a.web_url}><h4>{a.headline.main}</h4></a>
                                 <h5>{a.pub_date}</h5>
@@ -82,7 +82,8 @@ class Home extends Component {
                                 <button className="btn btn-success" onClick={this.saveArticle}>Save</button>
                                 <br/><br/>
                             </div>
-                        ))}
+        )) : <h2>No results to display yet</h2>}
+                    
                     </div>
 
                 </div>
