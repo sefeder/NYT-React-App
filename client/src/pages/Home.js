@@ -28,7 +28,7 @@ class Home extends Component {
       event.target.previousSibling.previousSibling.previousSibling.textContent;
     let date = event.target.previousSibling.previousSibling.textContent;
     let URL = event.target.previousSibling.textContent;
-    axios.post("http://localhost:4025/api/articles", {
+    axios.post("/api/articles", {
       headline: headline,
       date: date,
       URL: URL
