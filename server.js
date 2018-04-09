@@ -98,26 +98,43 @@ app.delete("/api/articles/:id", function(req, res) {
 });
 
 app.put("/api/articles/:id", function(req, res) {
-  var _id = req.params.id;
-  console.log(_id);
-  db.Article.findAndModify(
-    {
-      query: {
-        _id: _id
-      },
-      update: {
-        $set: {
-          notes: req.body.notes
-        }
-      },
-      new: true
-    },
-    function(err, result) {
-      res.json(result);
-    }
-  );
+  var id = req.params.id;
+
+  console.log("notes!", req.body.notes);
+
+  db.Article.update({ _id: id }, { $push: { notes: req.body.notes } }, function(
+    err,
+    response
+  ) {
+    if (err) throw err;
+    res.json(response);
+  });
 });
 
-app.get("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "./client/public/index.html"));
-});
+// app.put("/api/articles/:id", function(req, res) {
+//   var id = req.params.id;
+
+//   console.log("line 115", req.body.notes);
+
+//   db.Article.findAndModify(
+//     {
+//       query: {
+//         _id: id
+//       },
+//       update: {
+//         $push: {
+//           notes: req.body.notes
+//         }
+//       },
+//       new: true
+//     },
+//     function(err, result) {
+//       if (err) res.send(err);
+//       res.json(result);
+//     }
+//   );
+// });
+
+// app.get("*", function(req, res) {
+//   res.sendFile(path.join(__dirname, "./client/public/index.html"));
+// });

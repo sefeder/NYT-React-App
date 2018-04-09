@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../App.css";
+import axios from "axios";
 
 class Saved extends Component {
   constructor() {
@@ -7,7 +8,10 @@ class Saved extends Component {
     this.state = {
       articles: [],
       updateNote: false,
-      insertNoteId: ""
+      insertNoteId: "",
+      insertNoteHeadline: "",
+      insertNoteURL: "",
+      insertNoteDate: ""
     };
   }
 
@@ -40,7 +44,9 @@ class Saved extends Component {
 
   loadNoteForm = id => {
     this.setState({ updateNote: true }, () => {
-      this.setState({ insertNoteId: id });
+      this.setState({
+        insertNoteId: id
+      });
 
       let form = document.querySelector("#noteForm");
 
@@ -58,22 +64,35 @@ class Saved extends Component {
   insertNote = event => {
     event.preventDefault();
 
-    const notes = event.target.children[0].value;
+    let notes = event.target.children[0].value;
+    let id = event.target.children[1].value;
 
-    const id = event.target.children[1].value;
+    axios
+      .put(`/api/articles/${id}`, {
+        notes: notes
+      })
+      .then(res => console.log(res));
+    //   .then(res => {
+    //     let articles = this.state.articles.map(a => {
+    //       if (a._id !== id) return a;
+    //       else return res;
+    //     });
+    // this.setState({ articles });
+    //   });
 
-    fetch(`http://localhost:4025/api/articles/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ notes })
-    })
-      //   .then(res => res.json())
-      .then(res => {
-        let articles = this.state.articles.map(a => {
-          if (a._id !== id) return a;
-          else return res;
-        });
-        this.setState({ articles });
-      });
+    // fetch(`http://localhost:4025/api/articles/note/${id}`, {
+    //   method: "PUT",
+    //   body: { test: "test" }
+    // })
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     console.log("line 71", res);
+    //     let articles = this.state.articles.map(a => {
+    //       if (a._id !== id) return a;
+    //         else return res;
+    //     });
+    //     this.setState({ articles });
+    //   });
   };
 
   render() {
@@ -90,7 +109,7 @@ class Saved extends Component {
                     {a.URL}
                   </a>
                 </h5>
-                <h5>Notes: {a.notes}</h5>
+                <h5>Notes: {a.Notes}</h5>
                 <button className="btn btn-danger" onClick={this.removeArticle}>
                   Remove
                 </button>
@@ -109,9 +128,10 @@ class Saved extends Component {
           {this.state.updateNote && (
             <div>
               <form id="noteForm" onSubmit={this.insertNote}>
-                <textarea name="notes" rows="5" cols="30">
+                <input type="text" />
+                {/* <textarea name="notes" rows="5" cols="30">
                   Hello
-                </textarea>
+                </textarea> */}
                 <input type="hidden" value={this.state.insertNoteId} />
                 <br />
                 <input

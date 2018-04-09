@@ -15,8 +15,14 @@ const articleSchema = new Schema({
     type: String
     // required: true
   },
-  Notes: {
-    type: String
+  notes: {
+    type: Array,
+    trim: true
+  },
+
+  dateSaved: {
+    type: Date,
+    default: Date.now
   }
 });
 
