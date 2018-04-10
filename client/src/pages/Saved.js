@@ -24,7 +24,7 @@ class Saved extends Component {
   };
 
   findArticle = id => {
-    return fetch(`/api/articles/${id}`).then(res => res.json());
+      return fetch(`http://localhost:4025/api/articles/${id}`).then(res => res.json());
   };
 
   removeArticle = event => {
@@ -52,23 +52,23 @@ class Saved extends Component {
 
       let input = form.children[0];
 
-      this.findArticle(id).then(res => input.value === res[0].notes);
+        this.findArticle(id).then(res => input.value = (res[0].notes.length===0 ? "" : res[0].notes[res[0].notes.length-1])) //so last note shows up in input when the note form loads;
     });
   };
 
   cancelNoteForm = event => {
     event.preventDefault();
-    this.setState({ update: false });
+    this.setState({ updateNote: false });
   };
 
   insertNote = event => {
-    event.preventDefault();
+    // event.preventDefault();
 
     let notes = event.target.children[0].value;
     let id = event.target.children[1].value;
 
     axios
-      .put(`/api/articles/${id}`, {
+        .put(`http://localhost:4025/api/articles/${id}`, {
         notes: notes
       })
       .then(res => console.log(res));
@@ -102,14 +102,20 @@ class Saved extends Component {
           <div className="panel-body">
             {this.state.articles.map(a => (
               <div className="panel panel-default" data-id={a._id} key={a._id}>
-                <h5>{a.title}</h5>
+                            <a target="_blank" href={a.web_url}>
+                                <h4>{a.title}</h4>
+                            </a>
                 <h5>{a.date}</h5>
                 <h5>
                   <a href={a.URL} target="_blank">
                     {a.URL}
                   </a>
                 </h5>
-                <h5>Notes: {a.Notes}</h5>
+                <h5>Notes: 
+                {a.notes.length > 0 ? <ul>
+                {a.notes.map((n, i) => (<li key={i}>{n}</li>))} 
+                </ul> : " No notes yet!"}</h5>
+               
                 <button className="btn btn-danger" onClick={this.removeArticle}>
                   Remove
                 </button>
@@ -128,19 +134,19 @@ class Saved extends Component {
           {this.state.updateNote && (
             <div>
               <form id="noteForm" onSubmit={this.insertNote}>
-                <input type="text" />
+                <input type="text"/>
                 {/* <textarea name="notes" rows="5" cols="30">
                   Hello
-                </textarea> */}
+                </textarea>  */}
                 <input type="hidden" value={this.state.insertNoteId} />
                 <br />
                 <input
                   type="submit"
                   className="btn btn-primary"
-                  value="Add Note"
+                  value="Save Note"
                 />
                 <button className="btn btn-light" onClick={this.cancelNoteForm}>
-                  cancel
+                  Cancel
                 </button>
               </form>
             </div>
